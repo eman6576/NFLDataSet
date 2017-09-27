@@ -1,4 +1,4 @@
-//MIT License
+///MIT License
 //
 //Copyright (c) 2017 Manny Guerrero
 //
@@ -21,7 +21,9 @@
 //SOFTWARE.
 
 import Foundation
-import NFLDataSetLib
 
-let scraper = NFLScraper()
-scraper.generateCSVFile()
+extension String {
+    var intValue: Int? {
+        return Int(self)
+    }
+}

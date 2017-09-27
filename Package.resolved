@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CSV",
+        "repositoryURL": "https://github.com/yaslab/CSV.swift.git",
+        "state": {
+          "branch": null,
+          "revision": "a2a9e3f6e69e76dc3cbef727205ea9a7ef703ec7",
+          "version": "2.1.0"
+        }
+      },
+      {
+        "package": "Kanna",
+        "repositoryURL": "https://github.com/tid-kijyun/Kanna.git",
+        "state": {
+          "branch": null,
+          "revision": "2446979c1ba69f290aa3b5f028191a0120010da5",
+          "version": "2.2.1"
+        }
+      },
+      {
+        "package": "SwiftClibxml2",
+        "repositoryURL": "https://github.com/tid-kijyun/SwiftClibxml2.git",
+        "state": {
+          "branch": null,
+          "revision": "c4e67cc970273fc2bee978d12e422974ff184de7",
+          "version": "1.0.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
