@@ -8,7 +8,7 @@ A scraper that scrapes data from NFL.com for generating a dataset
 [![platform](https://img.shields.io/badge/platform-macOS-lightgrey.svg)]()
 
 ## Overview
-NFLDataSet is a Swift package that scrapes NFL.com for football game stats for generating a dataset. When a dataset generated, the file is in `csv` format that is saved to your desktop. With this dataset, it can then be used for data analysis, machine learning, etc. The dataset supports regular season games from 2009 to 2016. These are the fields retrieved for each game:
+NFLDataSet is a Swift package that scrapes NFL.com for football game stats for generating a dataset. When a dataset is generated, the file is in `csv` format that is saved to your desktop. With this dataset, it can then be used for data analysis, machine learning, etc. The dataset supports regular season games from 2009 to 2016. These are the fields retrieved for each game:
 
 * Season
 * Week
@@ -32,7 +32,7 @@ NFLDataSet is a Swift package that scrapes NFL.com for football game stats for g
 * Away Team Total Ties
 * Winner For The Game
 
-Overtime, more different types of football stats for a game will be used for increasing the dataset and accuracy. If you are interested in contributinig, please check out the contributing section bellow.
+Overtime, more different types of football stats for a game will be used to increase the dataset for accuracy. If you are interested in contributing, please check out the contributing section bellow.
 
 ## Requirements For Installing Locally
 
