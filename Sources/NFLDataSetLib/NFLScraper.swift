@@ -29,11 +29,11 @@ public final class NFLScraper {
     public init() {}
     
     public func generateCSVFile() {
-        guard let desktopPath = createCSVFile() else {
+        guard let filePath = createCSVFile() else {
             return
         }
-        guard let stream = OutputStream(toFileAtPath: desktopPath.path, append: false) else {
-            removeCSVFile(pathToFile: desktopPath)
+        guard let stream = OutputStream(toFileAtPath: filePath.path, append: false) else {
+            removeCSVFile(pathToFile: filePath)
             return
         }
         // Setup CSV writer
@@ -92,21 +92,21 @@ public final class NFLScraper {
                 let nflLivePath = "http://www.nfl.com/scores/\(season)/REG\(week)"
                 let url = URL(string: nflLivePath)!
                 guard let htmlDoc = HTML(url: url, encoding: .utf8) else {
-                    removeCSVFile(pathToFile: desktopPath)
+                    removeCSVFile(pathToFile: filePath)
                     fatalError("Error retriving data for season \(season), week \(week)!")
                 }
                 let scoreBoxNodes = htmlDoc.xpath("//div[@class='new-score-box-wrapper']")
                 for scoreBoxNode in scoreBoxNodes {
                     guard let newScoreBoxNode = scoreBoxNode.at_css("div[class=new-score-box]") else {
-                        removeCSVFile(pathToFile: desktopPath)
+                        removeCSVFile(pathToFile: filePath)
                         fatalError("Error retriving data for season \(season), week \(week)!")
                     }
                     guard let awayTeamWrapperNode = newScoreBoxNode.at_xpath("div/div[@class='away-team']") else {
-                        removeCSVFile(pathToFile: desktopPath)
+                        removeCSVFile(pathToFile: filePath)
                         fatalError("Error retriving data for season \(season), week \(week)!")
                     }
                     guard let homeTeamWrapperNode = newScoreBoxNode.at_xpath("div/div[@class='home-team']") else {
-                        removeCSVFile(pathToFile: desktopPath)
+                        removeCSVFile(pathToFile: filePath)
                         fatalError("Error retriving data for season \(season), week \(week)!")
                     }
                     retrieveGameData(teamName: &homeTeamName,
@@ -152,7 +152,7 @@ public final class NFLScraper {
                       awayTeamTotalWins != nil,
                       awayTeamTotalLosses != nil,
                       awayTeamTotalTies != nil else {
-                        removeCSVFile(pathToFile: desktopPath)
+                        removeCSVFile(pathToFile: filePath)
                         fatalError("Error retriving data for season \(season), week \(week)!")
                 }
                 // Calculate winner
@@ -190,7 +190,7 @@ public final class NFLScraper {
         }
         csv.stream.close()
         print("Finished generating NFL dataset")
-        print("Dataset file can be found at \(desktopPath.path)")
+        print("Dataset file can be found at \(filePath.path)")
     }
 }
 
@@ -198,18 +198,24 @@ public final class NFLScraper {
 // MARK: - Private Instance Methods
 fileprivate extension NFLScraper {
     func createCSVFile() -> URL? {
-        let fileManager = FileManager.default
-        let homePath: URL
-        if #available(OSX 10.12, *) {
-            homePath = fileManager.homeDirectoryForCurrentUser
-        } else {
-            print("File path cannot be determined in non OSX environment")
+        guard let inputPath = askForFilePath()?.appendingPathComponent("nfl-dataset.csv") else {
+            print("Unable to construct file path url from input")
             return nil
         }
-        let desktopPath = homePath.appendingPathComponent("Desktop/nfl-dataset.csv")
-        print("Path to use for adding csv file: \(desktopPath)")
-        fileManager.createFile(atPath: desktopPath.path, contents: nil, attributes: nil)
-        return desktopPath
+        print("Path to use for adding csv file: \(inputPath)")
+        return inputPath
+    }
+
+    func askForFilePath() -> URL? {
+        print("Please enter target location of the generated csv file:")
+        guard let input = readLine() else {
+            print("Invalid input")
+            return nil
+        }
+
+        let expanded = NSString(string: input).expandingTildeInPath
+
+        return URL(string: expanded)
     }
     
     func removeCSVFile(pathToFile: URL) {
